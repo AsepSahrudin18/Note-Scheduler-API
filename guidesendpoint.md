@@ -6,7 +6,10 @@ GET /api/schedules
 
 ### 2. Pencarian data Schedule berdasarkan tanggal keberlangsungan
 
-<!-- noted: masih progress -->
+POST
+EXAMPLE:
+
+/api/schedules/search-by-date?start_date=2023-07-04&end_date=2023-07-04
 
 Back to 🔝
 

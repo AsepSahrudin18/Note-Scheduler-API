@@ -219,27 +219,49 @@ class ScheduleController extends Controller
 
     public function searchSchedulesByDate(Request $request)
     {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+        
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-
+    
         $schedules = Schedule::with('activities')
             ->whereDate('start_at', '>=', $startDate)
             ->whereDate('end_at', '<=', $endDate)
             ->get();
-
-        $response = [
-            'code' => 200,
-            'data' => $schedules,
-        ];
-
+    
+        if ($schedules->count() === 0) {
+            $response = [
+                'code' => 404,
+                'message' => 'Data dengan tanggal tersebut kosong.',
+            ];
+        } else {
+            $response = [
+                'code' => 200,
+                'data' => $schedules,
+            ];
+        }
+    
         return response()->json($response);
     }
+    
 
     public function getAllSchedules()
     {
         $schedules = Schedule::with('activities')->get();
 
+        if(empty($schedule)){
+            $response = [
+                'success' => false,
+                'message' => 'Resource Not Found',
+                'data' => null
+            ];
+        }
+
         $response = [
+            'success' => true,
             'code' => 200,
             'data' => $schedules,
         ];
