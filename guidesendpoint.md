@@ -78,7 +78,17 @@ GET /api/activity/1
 
 ### 10. Menambah Aktivitas baru pada Schedule tertentu
 
-<!-- noted: masih progress -->
+POST:
+/api/schedules/3/activity
+
+Content-Type: application/json
+Accept: application/json
+
+Body (raw JSON):
+
+{
+"activity": "Nama Aktivitas Baru"
+}
 
 ### 11. Mengubah Aktivitas pada Schedule tertentu
 

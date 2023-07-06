@@ -239,25 +239,6 @@ class ScheduleController extends Controller
          return response()->json($response);
      }
 
-     public function addActivityToSchedule(Request $request, $id)
-    {
-            $schedule = Schedule::findOrFail($id);
-
-            $activityData = $request->only(['activity']);
-
-            $activity = $schedule->activities()->create($activityData);
-
-            $schedule->load('activities');
-
-            $response = [
-                'code' => 201,
-                'data' => $schedule,
-            ];
-
-            return response()->json($response);
-    }
-
-
     public function updateActivity(Request $request, $scheduleId, $activityId)
     {
         $schedule = Schedule::findOrFail($scheduleId);
@@ -401,4 +382,26 @@ class ScheduleController extends Controller
 
         return response()->json($response);
     }
+
+    public function addActivityToSchedule(Request $request, $scheduleId)
+    {
+        $schedule = Schedule::findOrFail($scheduleId);
+
+        $activity = new Activity();
+        $activity->schedule_id = $schedule->id;
+        $activity->activity = $request->input('activity');
+        $activity->save();
+
+        $response = [
+            'code' => 201,
+            'data' => [
+                'id' => $activity->id,
+                'schedule_id' => $activity->schedule_id,
+                'activity' => $activity->activity,
+            ],
+        ];
+
+        return response()->json($response, 201);
+    }
+
 }
