@@ -203,19 +203,28 @@ class ScheduleController extends Controller
 
     public function searchSchedulesByTitle(Request $request)
     {
-        $keyword = $request->input('keyword');
-
+        $judul = $request->input('judul');
+    
         $schedules = Schedule::with('activities')
-            ->where('judul', 'LIKE', "%$keyword%")
+            ->where('judul', 'LIKE', "%$judul%")
             ->get();
-
-        $response = [
-            'code' => 200,
-            'data' => $schedules,
-        ];
-
+    
+        if ($schedules->isEmpty()) {
+            $response = [
+                'code' => 404,
+                'message' => 'Data dengan judul tersebut tidak ditemukan.',
+            ];
+        } else {
+            $response = [
+                'code' => 200,
+                'data' => $schedules,
+            ];
+        }
+    
         return response()->json($response);
     }
+    
+
 
     public function searchSchedulesByDate(Request $request)
     {

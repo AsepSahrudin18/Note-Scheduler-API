@@ -36,7 +36,7 @@ Route::put('/schedules/{scheduleId}/activities/{activityId}', [ScheduleControlle
 Route::delete('/schedules/{scheduleId}/activities/{activityId}', [ScheduleController::class, 'deleteActivity']);
 Route::get('/schedules/{scheduleId}', [ScheduleController::class, 'getScheduleById']);
 
-Route::get('/schedules/search', [ScheduleController::class, 'searchSchedulesByTitle']); // progress 
+Route::post('/schedules/search', [ScheduleController::class, 'searchSchedulesByTitle']); // progress 
 Route::post('/schedules/search-by-date', [ScheduleController::class, 'searchSchedulesByDate']); // progress
 Route::get('/schedules', [ScheduleController::class, 'getAllSchedules']);
 

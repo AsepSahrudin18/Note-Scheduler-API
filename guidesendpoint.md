@@ -11,21 +11,23 @@ EXAMPLE:
 
 /api/schedules/search-by-date?start_date=2023-07-04&end_date=2023-07-04
 
-Back to 🔝
-
 Filter data menggunakan tanggal, misal:
 
 Tanggal 1 juni 2022 sampai 2 juni 2022
 
 ### 3. Pencarian data Schedule berdasarkan judul
 
-<!-- noted: masih progress -->
+POST:
+/api/schedules/search
 
-Back to 🔝
+Body request:
 
-Filter data menggunakan judul schedule, misal:
+{
+"judul": "test"
+}
 
-judul LIKE "%Fitness%"
+atau melalui query parameter:
+/api/schedules/search/?judul=datasayaapapun
 
 ### 4. Pencarian data Schedule berdasarkan ID Schedule
 
