@@ -35,7 +35,7 @@ GET /api/schedules/1
 
 ### 5. Menambah Schedule Baru: Create data / POST:
 
-endpoint:
+POST
 /api/schedules/
 
 data yang dikirim:
