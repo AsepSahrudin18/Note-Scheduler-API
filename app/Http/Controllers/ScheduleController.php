@@ -189,17 +189,37 @@ class ScheduleController extends Controller
         return response()->json($response);
     }
 
+    // public function getScheduleById($scheduleId)
+    // {
+    //     $schedule = Schedule::with('activities')->findOrFail($scheduleId);
+
+    //     $response = [
+    //         'code' => 200,
+    //         'data' => $schedule,
+    //     ];
+
+    //     return response()->json($response);
+    // }
+
     public function getScheduleById($scheduleId)
-    {
+{
+    try {
         $schedule = Schedule::with('activities')->findOrFail($scheduleId);
 
         $response = [
             'code' => 200,
             'data' => $schedule,
         ];
-
-        return response()->json($response);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+        $response = [
+            'code' => 404,
+            'message' => 'Data dengan ID tersebut tidak ditemukan.',
+        ];
     }
+
+    return response()->json($response);
+}
+
 
     public function searchSchedulesByTitle(Request $request)
     {
