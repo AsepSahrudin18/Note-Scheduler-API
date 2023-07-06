@@ -95,59 +95,59 @@ class ScheduleController extends Controller
     // }
 
     public function store(Request $request)
-{
-    $startAt = $request->input('start_at');
-    $endAt = $request->input('end_at');
+    {
+        $startAt = $request->input('start_at');
+        $endAt = $request->input('end_at');
 
-    if (Carbon::parse($startAt)->greaterThanOrEqualTo(Carbon::parse($endAt))) {
-        $response = [
-            'code' => 400,
-            'success' => false,
-            'message' => 'Tanggal mulai tidak boleh lebih kecil daripada tanggal berakhir.',
-        ];
-        return response()->json($response, 400);
-    }
+        if (Carbon::parse($startAt)->greaterThanOrEqualTo(Carbon::parse($endAt))) {
+            $response = [
+                'code' => 400,
+                'success' => false,
+                'message' => 'Tanggal mulai tidak boleh lebih kecil daripada tanggal berakhir.',
+            ];
+            return response()->json($response, 400);
+        }
 
-    try {
-        $schedule = new Schedule();
-        $schedule->judul = $request->input('judul');
-        $schedule->start_at = $startAt;
-        $schedule->end_at = $endAt;
-        $schedule->save();
+        try {
+            $schedule = new Schedule();
+            $schedule->judul = $request->input('judul');
+            $schedule->start_at = $startAt;
+            $schedule->end_at = $endAt;
+            $schedule->save();
 
-        $activity = new Activity();
-        $activity->schedule_id = $schedule->id;
-        $activity->activity = $request->input('activity');
-        $activity->save();
+            $activity = new Activity();
+            $activity->schedule_id = $schedule->id;
+            $activity->activity = $request->input('activity');
+            $activity->save();
 
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => $schedule->id,
-                'judul' => $schedule->judul,
-                'start_at' => $schedule->start_at,
-                'end_at' => $schedule->end_at,
-                'activities' => [
-                    [
-                        'id' => $activity->id,
-                        'schedule_id' => $activity->schedule_id,
-                        'activity' => $activity->activity,
+            $response = [
+                'success' => true,
+                'data' => [
+                    'id' => $schedule->id,
+                    'judul' => $schedule->judul,
+                    'start_at' => $schedule->start_at,
+                    'end_at' => $schedule->end_at,
+                    'activities' => [
+                        [
+                            'id' => $activity->id,
+                            'schedule_id' => $activity->schedule_id,
+                            'activity' => $activity->activity,
+                        ],
                     ],
                 ],
-            ],
-        ];
+            ];
 
-        return response()->json($response, 201);
-    } catch (\Exception $exception) {
-        $response = [
-            'code' => 400,
-            'success' => false,
-            'message' => 'Gagal menyimpan data.',
-        ];
+            return response()->json($response, 201);
+        } catch (\Exception $exception) {
+            $response = [
+                'code' => 400,
+                'success' => false,
+                'message' => 'Gagal menyimpan data.',
+            ];
 
-        return response()->json($response, 400);
+            return response()->json($response, 400);
+        }
     }
-}
     
 
     /**
@@ -189,6 +189,7 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $schedule = Schedule::findOrFail($id);
         $schedule->update($request->only(['judul', 'start_at', 'end_at']));
 
@@ -197,7 +198,6 @@ class ScheduleController extends Controller
         $activity->update(['activity' => $activityData['activity']]);
 
         $response = [
-            'code' => 200,
             'data' => [
                 'id' => $schedule->id,
                 'judul' => $schedule->judul,
@@ -213,8 +213,9 @@ class ScheduleController extends Controller
             ],
         ];
 
-        return response()->json($response);
+        return response()->json($response, 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

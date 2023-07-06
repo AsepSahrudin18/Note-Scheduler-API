@@ -33,7 +33,7 @@ atau melalui query parameter:
 
 GET /api/schedules/1
 
-### 5. Menambah Schedule Baru: Create data / POST:
+### 5. Menambah Schedule Baru:
 
 POST
 /api/schedules/

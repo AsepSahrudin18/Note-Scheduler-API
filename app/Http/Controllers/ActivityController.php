@@ -22,13 +22,22 @@ class ActivityController extends Controller
 
     public function getActivityById($id)
     {
-        $activity = Activity::findOrFail($id);
-
+        $activity = Activity::find($id);
+    
+        if (!$activity) {
+            $response = [
+                'code' => 404,
+                'message' => 'Data dengan ID '.$id.' tersebut tidak ditemukan.',
+            ];
+            return response()->json($response, 404);
+        }
+    
         $response = [
             'code' => 200,
             'data' => $activity,
         ];
-
+    
         return response()->json($response);
     }
+    
 }
